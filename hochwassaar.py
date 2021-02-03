@@ -6,21 +6,15 @@ import random
 import tweepy
 
 auth = tweepy.OAuthHandler('AoyJJwRG637eX4vS13d9hERFA', 'hQ4wPF9k6GaK5meE0i6fDcQsNjcNDDLwhlSR9loR7gB1mzlNM6')
-auth.set_access_token('1357032687031181314-eB4LDQFHnvG9VgRFziVpsZCEJjG4Bo', 'AvWyiCHJyHSfsSsWO4QmJdOUkPTl0EvzfB31nxHuVyyeh')
+auth.set_access_token('1357032687031181314-VwawQNiLR4SdHbyvuYzxfQRsFfcWzW', 'rkzYH4o8NcgpJ5WkW5GY9GDbhnKuiTvu5LYcIezV9zEeU')
 api = tweepy.API(auth)
-
-try:
-	api.verify_credentials()
-	print('Twitter da')
-except:
-	print('Error')
 
 # aktuellen pegelstand abrufen
 url = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/SANKT%20ARNUAL/W/currentmeasurement.json'
 db = 'hochwassaar.csv'
 response = requests.get(url)
 data = response.json()
-pegel = 372 #int(data['value'])
+pegel = int(data['value'])
 zeitpunkt = data['timestamp']
 headers = ['zeitpunkt', 'pegel']
 rows = [zeitpunkt, pegel]
@@ -51,7 +45,6 @@ finally:
 
 try:
 	change = pegel - pegel_alt
-	print(change)
 except:
 	pass
 
