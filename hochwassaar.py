@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import json
 import requests
 import csv
@@ -11,12 +13,11 @@ api = tweepy.API(auth)
 
 # aktuellen pegelstand abrufen
 url = 'https://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/SANKT%20ARNUAL/W/currentmeasurement.json'
-db = 'hochwassaar.csv'
+db = '/home/pi/python/hochwassaar/hochwassaar.csv'
 response = requests.get(url)
 data = response.json()
 pegel = int(data['value'])
 zeitpunkt = data['timestamp']
-headers = ['zeitpunkt', 'pegel']
 rows = [zeitpunkt, pegel]
 
 # pegelvergleiche
@@ -39,10 +40,9 @@ try:
 except:
 	pass
 finally:
-	with open(db, 'w', newline='') as csvfile:
+	with open(db, 'a+', newline='') as csvfile:
 		csvwriter = csv.writer(csvfile)
 		csvwriter.writerow(rows)	
-
 try:
 	change = pegel - pegel_alt
 except:
